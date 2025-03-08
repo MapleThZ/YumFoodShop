@@ -30,5 +30,15 @@ header {
 }
 
 .context {
-  margin-top: 150px;
+  display: grid;
+  /* grid-template-columns: repeat(2, 1fr); */
+  grid-template-columns: 15% 85%;
+  /* gap: 20px; */
+}
+
+.contextItem {
+  background-color: #f0f0f0;
+  /* border: 1px solid #ccc; */
+  /* padding: 20px; */
+  /* text-align: center; */
 }

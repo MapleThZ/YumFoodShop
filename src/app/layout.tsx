@@ -8,6 +8,8 @@ import Image from 'next/image';
 import styles from '../components/Menu.module.css';
 import Link from "next/link";
 import { useState } from "react";
+import List from '../components/List';
+import Head from "next/head";
 
 const fontpoppins = Poppins({
   weight: "200",
@@ -19,91 +21,15 @@ const fontpoppins = Poppins({
 //   subsets: ["latin"],
 // });
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpen1, setIsOpen1] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-    setIsOpen1(false);
-    setIsOpen2(false);
-  };
-  const toggleDropdown1 = () => {
-    setIsOpen(false);
-    setIsOpen1(!isOpen1);
-    setIsOpen2(false);
-  };
-  const toggleDropdown2 = () => {
-    setIsOpen(false);
-    setIsOpen1(false);
-    setIsOpen2(!isOpen2);
-  };
-
-  var Menu = (
-    <nav className={styles.navbar}>
-      <ul className={styles.ulmargin}>
-        <li>
-          <Link href="/" onClick={toggleDropdown}>
-            <label className={styles.link}>Home</label>
-          </Link>
-        </li>
-        {isOpen &&
-          <li className={styles.menuItem}>
-            <Link href="/">
-              <label className={styles.link}>Home 11</label>
-            </Link>
-          </li>
-        }
-      </ul>
-      <ul className={styles.ulmargin}>
-        <li>
-          <Link href="/" onClick={toggleDropdown1}>
-            <label className={styles.link}>Home 2</label>
-          </Link>
-        </li>
-
-        {isOpen1 &&
-          <li className={styles.menuItem}>
-            <Link href="/">
-              <label className={styles.link}>Home 21</label>
-            </Link>
-          </li>
-        }
-      </ul>
-      <ul className={styles.ulmargin}>
-        <li>
-          <Link href="/" onClick={toggleDropdown2}>
-            <label className={styles.link}>Home 3</label>
-          </Link>
-        </li>
-
-        {isOpen2 &&
-          <li className={styles.menuItem}>
-            <Link href="/">
-              <label className={styles.link}>Home 31</label>
-            </Link>
-          </li>
-        }
-        {isOpen2 &&
-          <li className={styles.menuItem}>
-            <Link href="/">
-              <label className={styles.link}>Home 32</label>
-            </Link>
-          </li>
-        }
-      </ul>
-    </nav >
-  );
-
   return (
-    <html lang="en">
-      <header>
+    <html>
+      <body className={`${fontpoppins.className} antialiased`}>
         <Image src="/images/banner.jpg"
           alt="A description of the image"
           width={1000}
@@ -111,17 +37,19 @@ export default function RootLayout({
           layout="responsive"
           style={{ height: '10%', width: '100%', maxHeight: '150px' }}
         />
-      </header>
-      <body className={`${fontpoppins.className} antialiased`}>
-        <div>
-          <div>
-            {Menu}
+        <div className="context">
+          <div className="contextItem">
+            <List />
           </div>
-          <div className="context">
+          <div className="contextItem">
             {children}
           </div>
         </div>
       </body>
+
+      {/* <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+
+      </footer> */}
     </html>
   );
 }

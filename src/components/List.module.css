@@ -1,0 +1,30 @@
+.listContainer {
+    list-style-type: none;
+    padding: 0;
+    background-color: rgb(222, 147, 119);
+}
+
+.listContainer li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.listContainer li:hover {
+    background-color: rgb(247, 197, 162);
+}
+
+.active {
+    background-color: rgb(222, 147, 119);
+    color: black;
+}
+
+
+.listContainerSub li:hover {
+    background-color: saddlebrown;
+}
+
+.activeSub {
+    background-color: rgb(80, 255, 179);
+    color: black;
+}
