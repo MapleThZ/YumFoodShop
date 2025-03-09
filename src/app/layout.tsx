@@ -5,6 +5,7 @@ import "./globals.css";
 import Image from 'next/image';
 import MenuList from '../components/MenuList';
 import Content from '../components/Content'
+import React, { useState, useEffect } from 'react';
 
 const fontpoppins = Poppins({
   weight: "200",
@@ -17,6 +18,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const [menuKey, setMenuKey] = useState('');
+
   return (
     <html>
       <body className={`${fontpoppins.className} antialiased`}>
@@ -29,18 +33,13 @@ export default function RootLayout({
         />
         <div className="context">
           <div className="contextItem">
-            <MenuList />
+            <MenuList setMenuKey={setMenuKey}/>
           </div>
           <div className="contextItem" style={{ height: '600px' }}>
-            {/* {children} */}
-            <Content />
+            <Content menuKey={menuKey}/>
           </div>
         </div>
       </body>
-
-      {/* <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-
-      </footer> */}
     </html>
   );
 }

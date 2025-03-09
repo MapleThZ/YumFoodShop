@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styles from './css/List.module.css';
 import { useRouter } from 'next/router';
 
-const MenuList = () => {
+const MenuList = ({ setMenuKey }) => {
 
     const [activeIndex, setActiveIndex] = useState(null);
     const [activeSubIndex, setActiveSubIndex] = useState(null);
+
 
     const items = [
         { text: 'คำสั่งซื้อ', subItems: [{ text: 'รายการ', href: '/' }, { text: 'เพิ่มรายการ', href: '/' }] },
@@ -13,15 +14,18 @@ const MenuList = () => {
         { text: 'สรุปผล', subItems: [{ text: 'คำสั่งซื้อ', href: '/' }, { text: 'วัตถุดิบ', href: '/' }] },
     ];
 
-    const handleClick = (index: any) => {
-        sessionStorage.setItem('menu', index);
+    const handleClick = (index) => {
+        setMenuKey(index + '0');
         setActiveIndex(index);
     };
 
-    const handleSubClick = (indexSub: any) => {
-        sessionStorage.setItem('menuIndex', indexSub);
+    const handleSubClick = (indexSub) => {
+        setMenuKey(activeIndex + '' + indexSub);
         setActiveSubIndex(indexSub);
     };
+
+    useEffect(() => {
+    }, [setMenuKey]);
 
     return (
         <ul className={styles.listContainer}>
@@ -32,9 +36,9 @@ const MenuList = () => {
                     </div>
 
                     {index === activeIndex && (
-                        <ul className={styles.listContainerSub}>
+                        <ul className={styles.listContainerSub} >
                             {item.subItems.map((subItem, subIndex) => (
-                                <li key={subIndex}
+                                <li key={subIndex} onClick={() => handleSubClick(subIndex)}
                                     className={subIndex === activeSubIndex ? styles.activeSub : ''}>
 
                                     <a onClick={() => handleSubClick(subIndex)}>
