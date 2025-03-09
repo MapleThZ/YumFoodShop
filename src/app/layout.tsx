@@ -1,25 +1,15 @@
 'use client';
 
-import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Image from 'next/image';
-
-import styles from '../components/Menu.module.css';
-import Link from "next/link";
-import { useState } from "react";
-import List from '../components/List';
-import Head from "next/head";
+import MenuList from '../components/MenuList';
+import Content from '../components/Content'
 
 const fontpoppins = Poppins({
   weight: "200",
   subsets: ["latin"],
 });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 
 export default function RootLayout({
@@ -39,10 +29,11 @@ export default function RootLayout({
         />
         <div className="context">
           <div className="contextItem">
-            <List />
+            <MenuList />
           </div>
-          <div className="contextItem">
-            {children}
+          <div className="contextItem" style={{ height: '600px' }}>
+            {/* {children} */}
+            <Content />
           </div>
         </div>
       </body>
