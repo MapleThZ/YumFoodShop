@@ -16,7 +16,7 @@ const PaginatedTable = ({ header, data, itemsPerPage }) => {
     const currentData = data.slice(startIndex, endIndex);
 
     return (
-        <container style={{ width: '90%' }}>
+        <div style={{ width: '90%' }}>
             <Table header={header} data={currentData} />
             <div className='paging-button'>
                 {Array.from({ length: totalPages }, (_, i) => (
@@ -28,7 +28,7 @@ const PaginatedTable = ({ header, data, itemsPerPage }) => {
                     </button>
                 ))}
             </div>
-        </container>
+        </div>
     );
 };
 

@@ -11,13 +11,13 @@ const PurchaseList = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-          const response = await fetch('/api/read-excel');
-          const result = await response.json();
-          setData(result);
+            const response = await fetch('/api/read-excel');
+            const result = await response.json();
+            setData(result);
         };
-    
+
         fetchData();
-      }, []);
+    }, []);
 
     return (
         <div>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "eventemitter3": "^5.0.1",
     "fs": "^0.0.1-security",
     "next": "15.2.1",
     "react": "^19.0.0",

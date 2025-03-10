@@ -12,9 +12,8 @@ const fontpoppins = Poppins({
   subsets: ["latin"],
 });
 
-
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -33,10 +32,10 @@ export default function RootLayout({
         />
         <div className="context">
           <div className="contextItem">
-            <MenuList setMenuKey={setMenuKey}/>
+            <MenuList setMenuKey={setMenuKey} />
           </div>
           <div className="contextItem" style={{ height: '600px' }}>
-            <Content menuKey={menuKey}/>
+            <Content menuKey={menuKey} />
           </div>
         </div>
       </body>
