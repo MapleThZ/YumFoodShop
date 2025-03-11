@@ -5,7 +5,7 @@ import "./globals.css";
 import Image from 'next/image';
 import MenuList from '../components/MenuList';
 import Content from '../components/Content'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const fontpoppins = Poppins({
   weight: "200",
@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className="contextItem">
             <MenuList setMenuKey={setMenuKey} />
           </div>
-          <div className="contextItem" style={{ height: '600px' }}>
+          <div className="contextItem scrollable" style={{ height: '600px' }}>
             <Content menuKey={menuKey} />
           </div>
         </div>

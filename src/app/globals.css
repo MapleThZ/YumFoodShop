@@ -39,7 +39,7 @@ header {
 .contextItem {
   background-color: #f0f0f0;
   min-height: 300px;
-  max-height: 500px;
+  max-height: 530px;
   /* border: 1px solid #ccc; */
   /* padding: 20px; */
   /* text-align: center; */
@@ -79,6 +79,15 @@ button:disabled {
 }
 
 .button {
+
+  &.bottomPlusAndMinus {
+    margin: 0px !important;
+    padding: 0px 8px;
+    border: 0;
+    background-color: #000000;
+    color: #ffffff;
+  }
+
   border: 2px solid #000;
   padding: 0px 20px;
   border-radius: 5px;
@@ -105,4 +114,22 @@ button:disabled {
 
 .text-right {
   text-align: right !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.scrollable {
+  overflow-y: scroll;
+  max-height: 530px;
+}
+
+.merge-row {
+  display: flex;
+  flex-direction: row;
+}
+
+select {
+  margin: 0px;
 }
