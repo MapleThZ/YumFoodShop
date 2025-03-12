@@ -68,7 +68,15 @@ const PurchaseList = () => {
                 <PaginatedTable header={header} data={data} itemsPerPage={5} />
             </div>
 
-            <div className='grid grid-cols-6 grid-rows-3'>
+            <div className='grid grid-cols-6 grid-rows-5'>
+                
+                <div></div>
+                <div><u>สรุปรายการ</u></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+
                 <div></div>
                 <div>รายการสั่งซื้อทั้งหมด</div>
                 <div className='grid grid-cols-2 grid-rows-1'>
