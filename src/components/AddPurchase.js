@@ -66,7 +66,6 @@ async function writeExcelFn(data) {
         body: JSON.stringify(data),
     });
     const result = await response.json();
-    console.log(result)
 }
 
 async function ReadExcelFileFn() {
@@ -88,10 +87,11 @@ function generateDataPushExcel(product, nameProduct, platform, additionalProduct
 
     var gpPrice = (pricePurchase * (30 / 100));
     gpPrice = (gpPrice + (gpPrice * (7 / 100))).toFixed(2)
-    const materialPrice = (pricePurchase * (40 / 100)).toFixed(2);
+    const costPrice = (pricePurchase * (40 / 100)).toFixed(2);
+    const profitPrice = ((pricePurchase - costPrice - gpPrice)).toFixed(2);
 
 
-    const genData = { seq: 0, id: product, name: nameProduct, additionalProduct: additionalProduct, price: pricePurchase, materialPrice: materialPrice, gpPrice: gpPrice, profitPrice: (pricePurchase - materialPrice - gpPrice), platformName: platform }
+    const genData = { seq: 0, id: product, name: nameProduct, additionalProduct: additionalProduct, price: pricePurchase, costPrice: costPrice, gpPrice: gpPrice, profitPrice: profitPrice, platformName: platform }
 
     return genData
 }
@@ -103,13 +103,7 @@ const addRow = async (product, nameProduct, platform, additionalProduct, pricePu
     const newRow = generateDataPushExcel(product, nameProduct, platform, additionalProduct, pricePurchase)
     newRow.seq = excelData.length + 1
 
-
-    console.log(excelData)
-    console.log(newRow)
-
     const updatedData = [...excelData, newRow];
-
-    console.log(updatedData)
 
     writeExcelFn(updatedData)
 };
@@ -123,6 +117,8 @@ const AddPurchase = () => {
     const [pricePurchase, setPricePurchase] = useState(0);
 
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [popupTitle, setPopupTitle] = useState('');
+    const [popupMessage, setPopupMessage] = useState('');
 
     const [nameProduct, setNameProduct] = useState('');
 
@@ -168,6 +164,8 @@ const AddPurchase = () => {
         if (selectedAdditionalProductOption[selectedAdditionalProductOption.length - 1]) {
             setSelectedAdditionalProductOption([...selectedAdditionalProductOption, ''])
         } else {
+            setPopupTitle('Warning')
+            setPopupMessage('กรุณาเลือก รายการเพิ่มเติม ก่อน')
             togglePopup();
         }
     };
@@ -204,8 +202,17 @@ const AddPurchase = () => {
             })
         })
 
-        await addRow(selectedMainProductOption, nameProduct, platformName, additionalProductName, pricePurchase)
-        clearPurchase()
+        try {
+            await addRow(selectedMainProductOption, nameProduct, platformName, additionalProductName, pricePurchase)
+            clearPurchase()
+            setPopupTitle('Success')
+            setPopupMessage('เพิ่มข้อมูลสำเร็จ')
+            togglePopup();
+        } catch (error) {
+            setPopupTitle('error')
+            setPopupMessage('ไม่สามารถเพิ่มข้อมูลได้')
+            togglePopup();
+        }
     }
 
     const clearPurchase = () => {
@@ -217,7 +224,7 @@ const AddPurchase = () => {
 
     return (
         <div>
-            <Popup title='Warning' message='กรุณาเลือก รายการเพิ่มเติม ก่อน' isVisible={isPopupVisible} togglePopup={togglePopup} />
+            <Popup title={popupTitle} message={popupMessage} isVisible={isPopupVisible} togglePopup={togglePopup} />
             <div className='grid grid-rows-1 justify-items-center'>
                 <h1 className='header-context'>เพิ่มรายการคำสั่งซื้อประจำวัน</h1>
             </div>
@@ -267,7 +274,7 @@ const AddPurchase = () => {
                     <div className='grid grid-cols-3 grid-rows-1 gap-2'>
                         <div></div>
                         <div className="merge-row" style={{ paddingTop: 'calc(var(--spacing) * 1)', paddingBottom: 'calc(var(--spacing) * 1)' }}>
-                            <div style={{ width: '120px' }} className={0 == index ? 'text-right' : 'hidden'}>รายการเพิ่มเติม* : </div>
+                            <div style={{ width: '120px' }} className={0 == index ? 'text-right' : 'hidden'}>รายการเพิ่มเติม : </div>
                             <div style={{ width: '120px' }} className={0 != index ? '' : 'hidden'}></div>
                             <div className={style.selectBoxSize}>
                                 <select name="additionalProduct" id="additionalProduct"

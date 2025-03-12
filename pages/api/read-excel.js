@@ -4,14 +4,18 @@ import * as XLSX from 'xlsx';
 import path from 'path';
 
 export default function handler(req, res) {
-  const { month, year } = getCurrentMonthAndYear();
-  const filePath = path.resolve('./public/excel', year + '-' + month + '-PurchaseList.xlsx');
-  const fileBuffer = readFileSync(filePath);
-  const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
-  const sheetName = workbook.SheetNames[0];
-  const worksheet = workbook.Sheets[sheetName];
-  const jsonData = XLSX.utils.sheet_to_json(worksheet);
-  res.status(200).json(jsonData);
+  try {
+    const { month, year } = getCurrentMonthAndYear();
+    const filePath = path.resolve('./public/excel', year + '-' + month + '-PurchaseList.xlsx');
+    const fileBuffer = readFileSync(filePath);
+    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    res.status(200).json(jsonData);
+  } catch (error) {
+    res.status(200).json([]);
+  }
 }
 
 const getCurrentMonthAndYear = () => {

@@ -16,7 +16,7 @@ const Table = ({ header, data }) => {
             <thead>
                 <tr>
                     {header.map((item, index) => (
-                        <th key={index} className='text-center' style={{ width: `${item.style}` }}>{item.name}</th>
+                        <th key={index} className='text-center' style={{ width: item.style, minWidth: item.style }}>{item.name}</th>
                     ))}
                 </tr>
             </thead>

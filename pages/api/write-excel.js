@@ -22,15 +22,15 @@ export default function handler(req, res) {
         // Write the Excel file to the specified path
         XLSX.writeFile(workbook, filePath);
 
-        res.status(200).json({ message: 'Excel file written successfully', filePath });
+        res.status(200).json({ code: '200', message: 'Excel file written successfully', filePath });
     } else {
-        res.status(405).json({ message: 'Method not allowed' });
+        res.status(500).json({ code: '500', message: 'Method not allowed' });
     }
 }
 
 const getCurrentMonthAndYear = () => {
-  const currentDate = new Date();
-  const month = currentDate.getMonth() + 1; // getMonth() returns month from 0 to 11
-  const year = currentDate.getFullYear();
-  return { month, year };
+    const currentDate = new Date();
+    const month = currentDate.getMonth() + 1; // getMonth() returns month from 0 to 11
+    const year = currentDate.getFullYear();
+    return { month, year };
 };
