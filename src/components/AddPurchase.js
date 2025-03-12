@@ -59,67 +59,59 @@ const additionalProductListFn = () => {
     return additionalProductList;
 }
 
-const ReadExcelFileFn = () => {
+async function writeExcelFn(data) {
+    const response = await fetch('/api/write-excel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    console.log(result)
+}
 
-    const [excelData, setExcelData] = useState([]);
+async function ReadExcelFileFn() {
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch('/api/read-excel');
-            const result = await response.json();
-            setExcelData(result);
-        };
+    var excelData = []
 
-        fetchData();
-    })
+    const fetchData = async () => {
+        const response = await fetch('/api/read-excel');
+        const result = await response.json();
+        excelData = [...result]
+    };
+
+    await fetchData();
 
     return excelData
 }
 
 function generateDataPushExcel(product, nameProduct, platform, additionalProduct, pricePurchase) {
 
-    const excelData = ReadExcelFileFn
-
-    const gpPrice = (pricePurchase * (30 / 100));
-    const gpPriceAll = gpPrice * (7 / 100)
-    const materialPrice = (pricePurchase * (40 / 100));
+    var gpPrice = (pricePurchase * (30 / 100));
+    gpPrice = (gpPrice + (gpPrice * (7 / 100))).toFixed(2)
+    const materialPrice = (pricePurchase * (40 / 100)).toFixed(2);
 
 
-    const genData = { seq: excelData.length, id: product, name: nameProduct, additionalProduct: additionalProduct, price: pricePurchase, materialPrice: materialPrice, gpPrice: gpPrice, profitPrice: (pricePurchase - materialPrice - gpPrice), platformName: platform }
+    const genData = { seq: 0, id: product, name: nameProduct, additionalProduct: additionalProduct, price: pricePurchase, materialPrice: materialPrice, gpPrice: gpPrice, profitPrice: (pricePurchase - materialPrice - gpPrice), platformName: platform }
 
-    console.log(genData)
+    return genData
 }
 
-const addRow = (product, nameProduct, platform, additionalProduct, pricePurchase) => {
+const addRow = async (product, nameProduct, platform, additionalProduct, pricePurchase) => {
 
-    generateDataPushExcel(product, nameProduct, platform, additionalProduct, pricePurchase)
+    const excelData = await ReadExcelFileFn()
 
-    const newRow = { Name: 'New Name', Age: 30 };
+    const newRow = generateDataPushExcel(product, nameProduct, platform, additionalProduct, pricePurchase)
+    newRow.seq = excelData.length + 1
+
+
+    console.log(excelData)
+    console.log(newRow)
+
     const updatedData = [...excelData, newRow];
 
-    // Create a new workbook and worksheet
-    const newWorkbook = XLSX.utils.book_new();
-    const newWorksheet = XLSX.utils.json_to_sheet(updatedData);
+    console.log(updatedData)
 
-    // Append the worksheet to the workbook
-    XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, 'Sheet1');
-
-    // Generate a binary string for download
-    const binaryString = XLSX.write(newWorkbook, { bookType: 'xlsx', type: 'binary' });
-
-    // Convert binary string to a Blob and create a download link
-    const blob = new Blob([s2ab(binaryString)], { type: 'application/octet-stream' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'updated_file.xlsx';
-    link.click();
-};
-
-const s2ab = (s) => {
-    const buf = new ArrayBuffer(s.length);
-    const view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-    return buf;
+    writeExcelFn(updatedData)
 };
 
 const AddPurchase = () => {
@@ -127,9 +119,6 @@ const AddPurchase = () => {
     const [selectedPlatformOption, setSelectedPlatformOption] = useState('');
     const [selectedMainProductOption, setSelectedMainProductOption] = useState('');
     const [selectedAdditionalProductOption, setSelectedAdditionalProductOption] = useState(['']);
-
-    const [platformName, setPlatformName] = useState('');
-    const [selectedAdditionalProductName, setSelectedAdditionalProductName] = useState('');
 
     const [pricePurchase, setPricePurchase] = useState(0);
 
@@ -145,15 +134,22 @@ const AddPurchase = () => {
         setSelectedPlatformOption(event.target.value);
     };
 
-    const handleMainProductChange = (event) => {
+    const handleMainProductChange = async (event) => {
         setSelectedMainProductOption(event.target.value);
 
-        mainProductList.map((data) => {
+        await mainProductList.map(async (data) => {
             if (data.id.includes(event.target.value)) {
-                setNameProduct(data.name)
-                setPricePurchase(data.price)
+                await setNameProduct(data.name)
+                await setPricePurchase(data.price)
             }
         });
+
+        await selectedAdditionalProductOption.map(async main => {
+            await additionalProductList.map(async (data) => {
+                if (main.includes(data.id))
+                    await setPricePurchase(pricePurchase + data.price)
+            });
+        })
     };
 
     const handleAdditionalProductChange = (event, index) => {
@@ -184,23 +180,32 @@ const AddPurchase = () => {
         setIsPopupVisible(!isPopupVisible);
     };
 
-    const addPurchase = () => {
+    const addPurchase = async () => {
+
+        var platformName = ''
 
         platformList.map(data => {
-            if (data.id.includes(platform)) {
-                setPlatformName(data.name)
+            if (data.id.includes(selectedPlatformOption)) {
+                platformName = data.name
             }
         })
 
-        additionalProductList.map(main => {
-            selectedAdditionalProductOption.map(sub => {
-                if (main.id.includes(sub)) {
-                    setSelectedAdditionalProductName(selectedAdditionalProductName + ' ' + main.name)
+        var additionalProductName = ' '
+
+        selectedAdditionalProductOption.map((main, index) => {
+            additionalProductList.map((sub) => {
+                if (main.includes(sub.id)) {
+                    if (index == 0) {
+                        additionalProductName = sub.name
+                    } else {
+                        additionalProductName = additionalProductName + ',' + sub.name
+                    }
                 }
             })
         })
 
-        addRow(selectedMainProductOption, nameProduct, platformName, selectedAdditionalProductName, pricePurchase)
+        await addRow(selectedMainProductOption, nameProduct, platformName, additionalProductName, pricePurchase)
+        clearPurchase()
     }
 
     const clearPurchase = () => {

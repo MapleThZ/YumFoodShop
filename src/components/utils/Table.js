@@ -12,11 +12,11 @@ const styleTr = (key) => {
 
 const Table = ({ header, data }) => {
     return (
-        <table>
+        <table style={{ width: '100%' }}>
             <thead>
                 <tr>
                     {header.map((item, index) => (
-                        <th key={index} className='text-center'>{item}</th>
+                        <th key={index} className='text-center' style={{ width: `${item.style}` }}>{item.name}</th>
                     ))}
                 </tr>
             </thead>
