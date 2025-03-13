@@ -5,9 +5,11 @@ import fs from 'fs';
 export default function handler(req, res) {
     if (req.method === 'POST') {
 
-        const { month, year } = getCurrentMonthAndYear();
+        const body = req.body;
 
-        const data = req.body;
+        const data = body.data
+        const pathFile = body.pathFile
+        const fileName = body.fileName
 
         // Create a new workbook and worksheet
         const workbook = XLSX.utils.book_new();
@@ -17,7 +19,7 @@ export default function handler(req, res) {
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
         // Define the path to save the Excel file
-        const filePath = path.resolve('.', './public/excel', year + '-' + month + '-PurchaseList.xlsx');
+        const filePath = path.resolve('.', pathFile, fileName);
 
         // Write the Excel file to the specified path
         XLSX.writeFile(workbook, filePath);
@@ -27,10 +29,3 @@ export default function handler(req, res) {
         res.status(500).json({ code: '500', message: 'Method not allowed' });
     }
 }
-
-const getCurrentMonthAndYear = () => {
-    const currentDate = new Date();
-    const month = currentDate.getMonth() + 1; // getMonth() returns month from 0 to 11
-    const year = currentDate.getFullYear();
-    return { month, year };
-};

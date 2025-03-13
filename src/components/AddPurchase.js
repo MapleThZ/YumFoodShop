@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import eventEmitter from './utils/EventEmitter';
 import Popup from './utils/Popup';
 import style from './css/AddPurchase.module.css';
-import * as XLSX from 'xlsx';
-import path from 'path';
+import { getCurrentDayMonthAndYear } from './utils/Date'
 
 const platformListFn = () => {
     const [platformList, setPlatformList] = useState([]);
@@ -60,10 +59,14 @@ const additionalProductListFn = () => {
 }
 
 async function writeExcelFn(data) {
+
+    const { day, month, year } = getCurrentDayMonthAndYear()
+
+    var body = { pathFile: './public/excel', fileName: year + '' + (month < 10 ? '0' + month : month) + '' + (day < 10 ? '0' + day : day) + '-PurchaseList.xlsx', data: data }
     const response = await fetch('/api/write-excel', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(body),
     });
     const result = await response.json();
 }
@@ -209,7 +212,7 @@ const AddPurchase = () => {
             setPopupMessage('เพิ่มข้อมูลสำเร็จ')
             togglePopup();
         } catch (error) {
-            setPopupTitle('error')
+            setPopupTitle('Error')
             setPopupMessage('ไม่สามารถเพิ่มข้อมูลได้')
             togglePopup();
         }
@@ -271,7 +274,7 @@ const AddPurchase = () => {
             </div>
             {
                 selectedAdditionalProductOption.map((data, index) => (
-                    <div className='grid grid-cols-3 grid-rows-1 gap-2'>
+                    <div key={index} className='grid grid-cols-3 grid-rows-1 gap-2'>
                         <div></div>
                         <div className="merge-row" style={{ paddingTop: 'calc(var(--spacing) * 1)', paddingBottom: 'calc(var(--spacing) * 1)' }}>
                             <div style={{ width: '120px' }} className={0 == index ? 'text-right' : 'hidden'}>รายการเพิ่มเติม : </div>

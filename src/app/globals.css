@@ -133,3 +133,9 @@ button:disabled {
 select {
   margin: 0px;
 }
+
+input {
+  border: 1px solid;
+  border-radius: 5%;
+  padding: 3px;
+}

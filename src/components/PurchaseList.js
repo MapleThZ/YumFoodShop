@@ -68,52 +68,54 @@ const PurchaseList = () => {
                 <PaginatedTable header={header} data={data} itemsPerPage={5} />
             </div>
 
-            <div className='grid grid-cols-6 grid-rows-5'>
-                
-                <div></div>
-                <div><u>สรุปรายการ</u></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
+            {data.length > 0 &&
+                <div className='grid grid-cols-6 grid-rows-5'>
 
-                <div></div>
-                <div>รายการสั่งซื้อทั้งหมด</div>
-                <div className='grid grid-cols-2 grid-rows-1'>
-                    <div className='text-right' style={{ paddingRight: '10px' }}>{purchaseAll}</div>
-                    <div>รายการ</div>
-                </div>
-                <div>รวมมูลค่าทั้งสิ้น</div>
-                <div className='grid grid-cols-2 grid-rows-1'>
-                    <div className='text-right' style={{ paddingRight: '10px' }}>{priceAll}</div>
-                    <div>บาท</div>
-                </div>
-                <div></div>
+                    <div></div>
+                    <div><u>สรุปรายการ</u></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
 
-                <div></div>
-                <div>แยกเป็นราคาวัตถุดิบทั้งหมด</div>
-                <div className='grid grid-cols-2 grid-rows-1'>
-                    <div className='text-right' style={{ paddingRight: '10px' }}>{costPriceAll}</div>
-                    <div>บาท</div>
-                </div>
-                <div>ค่า GP ทั้งหมด</div>
-                <div className='grid grid-cols-2 grid-rows-1'>
-                    <div className='text-right' style={{ paddingRight: '10px' }}>{gpPriceAll}</div>
-                    <div>บาท</div>
-                </div>
-                <div></div>
+                    <div></div>
+                    <div>รายการสั่งซื้อทั้งหมด</div>
+                    <div className='grid grid-cols-2 grid-rows-1'>
+                        <div className='text-right' style={{ paddingRight: '10px' }}>{purchaseAll}</div>
+                        <div>รายการ</div>
+                    </div>
+                    <div>รวมมูลค่าทั้งสิ้น</div>
+                    <div className='grid grid-cols-2 grid-rows-1'>
+                        <div className='text-right' style={{ paddingRight: '10px' }}>{priceAll}</div>
+                        <div>บาท</div>
+                    </div>
+                    <div></div>
 
-                <div></div>
-                <div>รายได้หลังหักค่าใช่จ่าย</div>
+                    <div></div>
+                    <div>แยกเป็นราคาวัตถุดิบทั้งหมด</div>
+                    <div className='grid grid-cols-2 grid-rows-1'>
+                        <div className='text-right' style={{ paddingRight: '10px' }}>{costPriceAll}</div>
+                        <div>บาท</div>
+                    </div>
+                    <div>ค่า GP ทั้งหมด</div>
+                    <div className='grid grid-cols-2 grid-rows-1'>
+                        <div className='text-right' style={{ paddingRight: '10px' }}>{gpPriceAll}</div>
+                        <div>บาท</div>
+                    </div>
+                    <div></div>
 
-                <div className='grid grid-cols-2 grid-rows-1'>
-                    <div className='text-right' style={{ paddingRight: '10px' }}>{profitPriceAll}</div>
-                    <div>บาท</div>
+                    <div></div>
+                    <div>รายได้หลังหักค่าใช่จ่าย</div>
+
+                    <div className='grid grid-cols-2 grid-rows-1'>
+                        <div className='text-right' style={{ paddingRight: '10px' }}>{profitPriceAll}</div>
+                        <div>บาท</div>
+                    </div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                 </div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+            }
         </div>
     );
 }

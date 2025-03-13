@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PurchaseList from './PurchaseList';
 import AddPurchase from './AddPurchase';
+import CostList from './CostList';
+import AddCost from './AddCost';
+import ReportCost from './ReportCost';
+import ReportPurchase from './ReportPurchase'
 import eventEmitter from './utils/EventEmitter';
 
 const MainProductMasterData = () => {
@@ -42,9 +46,6 @@ const PlatformMasterData = () => {
 
 const Content = ({ menuKey }) => {
 
-    // useEffect(() => {
-    // }, []);
-
     useEffect(() => {
         MainProductMasterData()
         AdditionalProductMasterData()
@@ -58,6 +59,22 @@ const Content = ({ menuKey }) => {
     } else if (menuKey.includes('01')) {
         return (
             <AddPurchase />
+        )
+    } else if (menuKey.includes('10')) {
+        return (
+            <CostList />
+        )
+    } else if (menuKey.includes('11')) {
+        return (
+            <AddCost />
+        )
+    } else if (menuKey.includes('20')) {
+        return (
+            <ReportPurchase />
+        )
+    } else if (menuKey.includes('21')) {
+        return (
+            <ReportCost />
         )
     } else {
         return (

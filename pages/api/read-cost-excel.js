@@ -7,7 +7,7 @@ import { getCurrentDayMonthAndYear } from '../../src/components/utils/Date'
 export default function handler(req, res) {
   try {
     const { day, month, year } = getCurrentDayMonthAndYear();
-    const filePath = path.resolve('./public/excel', year + '' + (month < 10 ? '0' + month : month) + '' + (day < 10 ? '0' + day : day) + '-PurchaseList.xlsx');
+    const filePath = path.resolve('./public/excel', year + '' + (month < 10 ? '0' + month : month) + '' + (day < 10 ? '0' + day : day) + '-CostList.xlsx');
     const fileBuffer = readFileSync(filePath);
     const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0];
