@@ -285,8 +285,8 @@ const AddPurchase = () => {
                                     value={data} onChange={() => handleAdditionalProductChange(event, index)}>
 
                                     <option value="">Select...</option>
-                                    {additionalProductList.map((option) => (
-                                        <option value={option.id}>
+                                    {additionalProductList.map((option, index) => (
+                                        <option key={index} value={option.id}>
                                             {option.name}
                                         </option>
                                     ))}
